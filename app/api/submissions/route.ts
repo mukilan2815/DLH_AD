@@ -1,19 +1,120 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/mongodb";
 
+const ipSubmissions = new Map<string, number[]>();
+const RATE_LIMIT_WINDOW = 60000;
+const RATE_LIMIT_MAX = 3;
+
+const sanitizeString = (str: string): string => {
+  return str
+    .trim()
+    .slice(0, 100)
+    .replace(/[<>\"'`]/g, "")
+    .replace(/javascript:/gi, "");
+};
+
+const validateEmail = (email: string): boolean => {
+  const emailRegex = /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return emailRegex.test(email) && email.length <= 254;
+};
+
+const validatePhone = (phone: string): boolean => {
+  const digitsOnly = phone.replace(/\D/g, "");
+  return digitsOnly.length >= 10 && digitsOnly.length <= 15;
+};
+
+const checkRateLimit = (ip: string): boolean => {
+  const now = Date.now();
+  const submissions = ipSubmissions.get(ip) || [];
+  const recentSubmissions = submissions.filter(time => now - time < RATE_LIMIT_WINDOW);
+
+  if (recentSubmissions.length >= RATE_LIMIT_MAX) {
+    return false;
+  }
+
+  recentSubmissions.push(now);
+  ipSubmissions.set(ip, recentSubmissions);
+  return true;
+};
+
 export async function POST(req: NextRequest) {
   try {
+    const ip = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+
+    if (!checkRateLimit(ip)) {
+      return NextResponse.json(
+        { success: false, error: "Too many submissions. Please try again later." },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
+
+    if (!body || typeof body !== "object") {
+      return NextResponse.json(
+        { success: false, error: "Invalid request" },
+        { status: 400 }
+      );
+    }
+
+    const { firstName, email, whatsapp, profession, city } = body;
+
+    if (!firstName || !email || !whatsapp || !profession || !city) {
+      return NextResponse.json(
+        { success: false, error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    const validProfessions = ["Job", "Student", "Business Owner", "Freelancer", "Other"];
+    if (!validProfessions.includes(profession)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid profession" },
+        { status: 400 }
+      );
+    }
+
+    if (!validateEmail(email)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid email format" },
+        { status: 400 }
+      );
+    }
+
+    if (!validatePhone(whatsapp)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid phone number" },
+        { status: 400 }
+      );
+    }
+
     const db = await getDb();
     const collection = db.collection("submissions");
 
-    const doc = {
-      ...body,
+    const existingSubmission = await collection.findOne({
+      email: email.toLowerCase(),
+    });
+
+    if (existingSubmission) {
+      return NextResponse.json(
+        { success: false, error: "This email is already registered" },
+        { status: 409 }
+      );
+    }
+
+    const sanitizedData = {
+      firstName: sanitizeString(firstName),
+      email: email.toLowerCase(),
+      whatsapp: whatsapp.replace(/\D/g, ""),
+      profession,
+      city: sanitizeString(city),
+      ipAddress: ip,
+      userAgent: req.headers.get("user-agent") || "unknown",
       timestamp: new Date().toISOString(),
       createdAt: new Date(),
     };
 
-    const result = await collection.insertOne(doc);
+    const result = await collection.insertOne(sanitizedData);
     return NextResponse.json({ success: true, id: result.insertedId }, { status: 201 });
   } catch (error) {
     console.error("POST /api/submissions error:", error);

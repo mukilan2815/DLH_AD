@@ -22,24 +22,51 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
+  const sanitizeInput = (input: string): string => {
+    return input
+      .trim()
+      .slice(0, 100)
+      .replace(/[<>\"']/g, "")
+      .replace(/javascript:/gi, "")
+      .replace(/on\w+\s*=/gi, "");
+  };
+
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
+    const nameRegex = /^[a-zA-Z\s.''-]{2,100}$/;
+    const emailRegex = /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    if (!formData.firstName.trim()) {
+    const firstName = formData.firstName.trim();
+    if (!firstName) {
       newErrors.firstName = "Name is required";
+    } else if (!nameRegex.test(firstName)) {
+      newErrors.firstName = "Name must be 2-100 characters (letters only)";
     }
-    if (!formData.email.trim()) {
+
+    const email = formData.email.trim().toLowerCase();
+    if (!email) {
       newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    } else if (!emailRegex.test(email) || email.length > 254) {
       newErrors.email = "Please enter a valid email address";
     }
+
+    const whatsapp = formData.whatsapp.replace(/\D/g, "");
     if (!formData.whatsapp.trim()) {
       newErrors.whatsapp = "WhatsApp number is required";
-    } else if (formData.whatsapp.replace(/\D/g, "").length < 10) {
-      newErrors.whatsapp = "Please enter a valid 10-digit number";
+    } else if (whatsapp.length < 10 || whatsapp.length > 15) {
+      newErrors.whatsapp = "Please enter a valid phone number (10-15 digits)";
     }
-    if (!formData.city.trim()) {
+
+    const city = formData.city.trim();
+    if (!city) {
       newErrors.city = "City is required";
+    } else if (!nameRegex.test(city)) {
+      newErrors.city = "City must be 2-100 characters (letters only)";
+    }
+
+    const validProfessions = ["Job", "Student", "Business Owner", "Freelancer", "Other"];
+    if (!validProfessions.includes(formData.profession)) {
+      newErrors.profession = "Invalid profession selected";
     }
 
     setErrors(newErrors);
@@ -48,7 +75,17 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    let sanitizedValue = value;
+
+    if (name === "firstName" || name === "city") {
+      sanitizedValue = sanitizeInput(value).slice(0, 100);
+    } else if (name === "email") {
+      sanitizedValue = value.trim().slice(0, 254);
+    } else if (name === "whatsapp") {
+      sanitizedValue = value.replace(/\D/g, "").slice(0, 15);
+    }
+
+    setFormData(prev => ({ ...prev, [name]: sanitizedValue }));
     if (touched[name]) {
       validateForm();
     }
