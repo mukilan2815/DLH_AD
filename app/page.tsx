@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import WebinarForm from "./RegistrationForm";
+import Marquee from "./Marquee";
 import { getContent, type LandingContent } from "./content-config";
 import { useEffect, useState } from "react";
 import CountdownTimer from "./CountdownTimer";
@@ -137,7 +138,7 @@ export default function Home() {
                 <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                 <span>{content.urgencyText || "Spots filling fast"}</span>
               </span>
-              <button 
+              <button
                 onClick={scrollToForm}
                 className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2 rounded-lg text-xs md:text-sm transition-all shadow-sm active:scale-95 cursor-pointer"
               >
@@ -146,6 +147,9 @@ export default function Home() {
             </div>
           </div>
         </header>
+
+        {/* Marquee Banner */}
+        <Marquee />
 
         {/* HERO SECTION */}
         <section className="relative max-w-7xl mx-auto px-6 py-12 md:py-16 lg:py-24">
