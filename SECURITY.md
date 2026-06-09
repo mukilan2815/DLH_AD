@@ -8,6 +8,8 @@
 - ✅ Whitelist validation: Only allow letters, spaces, dots, hyphens in names/cities
 - ✅ Email regex: RFC-compliant email validation
 - ✅ Phone validation: 10-15 digits only
+- ✅ Real-time sanitization: Visual indicator shows when input is being cleaned
+- ✅ Character removal: Strips dangerous chars instantly as user types
 
 ### 2. **Rate Limiting**
 - ✅ Max 3 submissions per IP per minute
@@ -47,6 +49,35 @@ Content-Security-Policy: restricted     (CSP rules)
 - ✅ Content-type validation
 - ✅ Required field validation
 - ✅ Error messages don't leak info (generic messages)
+
+---
+
+## 🧹 Real-Time Sanitization Process
+
+When you type in the form, here's what happens automatically:
+
+### **Name & City Fields**
+```
+User types:  "John<script>"
+Sanitized:   "John"          ✅ Removes: < > " ' ` javascript: on*=
+Indicator:   Shows "🛡️ Sanitized"
+```
+
+### **Email Field**
+```
+User types:  "john@test.com  " (with extra spaces)
+Sanitized:   "john@test.com"  ✅ Trims spaces, converts to lowercase
+Indicator:   Shows "🛡️ Sanitized"
+```
+
+### **WhatsApp Field**
+```
+User types:  "98-765-43210"
+Sanitized:   "9876543210"     ✅ Removes all non-digits, keeps only numbers
+Indicator:   Shows "🛡️ Sanitized"
+```
+
+The **"🛡️ Sanitized"** badge appears when characters are removed, letting you know the form is protecting you!
 
 ---
 
