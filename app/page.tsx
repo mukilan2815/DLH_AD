@@ -157,7 +157,7 @@ export default function Home() {
               {/* Live Status Badge */}
               <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-100 text-emerald-700 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-6 w-fit">
                 <Calendar className="w-3.5 h-3.5 text-emerald-600" />
-                <span>LIVE MASTERCLASS • {content.webinarDate}</span>
+                <span>LIVE MASTERCLASS • <span className="bg-emerald-600 text-white px-2 py-0.5 rounded-md ml-1">{content.webinarDate}</span></span>
               </div>
 
               {/* Dynamic Title */}
@@ -341,7 +341,9 @@ export default function Home() {
             </div>
             <div>
               <p className="text-xs font-bold text-slate-900">Live Webinar Registrations Closing Soon</p>
-              <p className="text-[10px] font-semibold text-slate-500 mt-0.5">{content.webinarDate} • {content.webinarTime}</p>
+              <p className="text-[10px] font-semibold text-slate-500 mt-0.5">
+                <span className="bg-red-500 text-white px-2 py-1 rounded-md font-bold">{content.webinarDate}</span> • {content.webinarTime}
+              </p>
             </div>
           </div>
           <div className="flex items-center gap-3 w-full md:w-auto">
