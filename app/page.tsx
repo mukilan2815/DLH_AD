@@ -152,7 +152,7 @@ export default function Home() {
         <Marquee />
 
         {/* HERO SECTION */}
-        <section className="relative max-w-7xl mx-auto px-6 py-12 md:py-16 lg:py-24">
+        <section className="relative max-w-7xl mx-auto px-6 py-12 md:py-16 lg:py-20">
           <div className="grid lg:grid-cols-12 gap-8 md:gap-10 lg:gap-8 items-start lg:items-center">
             
             {/* LEFT COLUMN: Hero Copy & Countdown */}
@@ -192,7 +192,7 @@ export default function Home() {
               </div>
 
               {/* Bullets List (Hero) */}
-              <div className="space-y-3 mt-2 hidden lg:block">
+              <div className="space-y-3 mt-8 hidden lg:block">
                 {content.bulletPoints.slice(0, 3).map((point, index) => (
                   <div key={index} className="flex items-start gap-3 text-slate-600 text-sm font-semibold">
                     <div className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -235,7 +235,7 @@ export default function Home() {
 
         {/* SPEAKER PROFILE SECTION */}
         <section className="border-t border-slate-200/60 bg-slate-100/30 relative">
-          <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
+          <div className="max-w-7xl mx-auto px-6 py-12 md:py-16 lg:py-20">
             <div className="grid lg:grid-cols-12 gap-12 items-center">
               
               {/* Speaker Photo */}
@@ -301,7 +301,7 @@ export default function Home() {
 
         {/* FAQ ACCORDION SECTION */}
         <section className="border-t border-slate-200/60 bg-slate-50">
-          <div className="max-w-3xl mx-auto px-6 py-16 md:py-24">
+          <div className="max-w-3xl mx-auto px-6 py-12 md:py-16 lg:py-20">
             <div className="text-center mb-12">
               <span className="text-xs font-bold text-emerald-700 uppercase tracking-widest">
                 Support & Help
