@@ -157,27 +157,11 @@ export default function Home() {
             
             {/* LEFT COLUMN: Hero Copy & Countdown */}
             <div className="lg:col-span-7 flex flex-col justify-center">
-              {/* Live Status Badge with Big Date */}
-              <div className="mb-8">
-                <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-100 text-emerald-700 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider w-fit mb-4">
+              {/* Live Status Badge */}
+              <div className="mb-6">
+                <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-100 text-emerald-700 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider w-fit">
                   <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                   <span>LIVE MASTERCLASS</span>
-                </div>
-
-                {/* Big Date Display */}
-                <div className="relative inline-block">
-                  <div className="absolute -inset-2 bg-gradient-to-r from-red-500/20 via-orange-500/20 to-red-500/20 rounded-2xl blur-lg" />
-                  <div className="relative bg-gradient-to-r from-red-600 to-orange-600 rounded-2xl p-6 md:p-8 shadow-2xl">
-                    <div className="text-white">
-                      <p className="text-sm md:text-base font-bold uppercase tracking-wider mb-2 opacity-90">Webinar Happens On</p>
-                      <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-white drop-shadow-lg">
-                        {content.webinarDate}
-                      </h3>
-                      <p className="text-sm md:text-base font-semibold mt-3 opacity-95">
-                        ⏰ {content.webinarTime} IST
-                      </p>
-                    </div>
-                  </div>
                 </div>
               </div>
 
@@ -195,8 +179,17 @@ export default function Home() {
               </p>
 
               {/* Countdown Timer */}
-              <div className="max-w-md mb-8">
+              <div className="max-w-md mb-6">
                 <CountdownTimer targetDate={targetDate} />
+              </div>
+
+              {/* Compact Date Box */}
+              <div className="inline-flex items-center gap-3 bg-gradient-to-r from-red-600 to-orange-600 rounded-xl px-4 py-3 shadow-lg mb-8">
+                <div className="text-white">
+                  <p className="text-xs font-semibold opacity-90">📅 Webinar Happens On</p>
+                  <p className="text-sm md:text-base font-black text-white">{content.webinarDate}</p>
+                  <p className="text-xs font-semibold opacity-95">⏰ {content.webinarTime} IST</p>
+                </div>
               </div>
 
               {/* Bullets List (Hero) */}
