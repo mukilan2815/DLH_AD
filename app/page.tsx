@@ -183,22 +183,16 @@ export default function Home() {
                 <CountdownTimer targetDate={targetDate} />
               </div>
 
-              {/* Elegant Date Box - Centered */}
+              {/* Clean Date Box - Centered */}
               <div className="w-full flex justify-center mb-8">
-                <div className="w-full max-w-sm bg-gradient-to-br from-emerald-50/80 to-teal-50/40 border border-emerald-200/60 rounded-3xl px-8 py-7 shadow-sm hover:shadow-md transition-shadow backdrop-blur-sm">
-                  <div className="text-center space-y-4">
-                    <div className="flex items-center justify-center gap-2.5">
-                      <span className="text-2xl">📅</span>
-                      <p className="text-xs font-semibold text-emerald-700 uppercase tracking-widest letter-spacing-1">Webinar Happens On</p>
-                    </div>
-                    <h3 className="text-4xl md:text-5xl font-playfair font-light text-slate-900 tracking-tight leading-tight">
+                <div className="w-full max-w-md bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl px-6 py-6 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="text-center space-y-3">
+                    <p className="text-xs font-bold text-emerald-700 uppercase tracking-wider">📅 Webinar Happens On</p>
+                    <h3 className="text-3xl md:text-4xl font-bold text-slate-900">
                       {content.webinarDate}
                     </h3>
-                    <div className="flex flex-col items-center gap-2 pt-3 border-t border-emerald-200/40">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xl">⏰</span>
-                        <p className="font-lora text-base font-medium text-slate-700">{content.webinarTime} <span className="text-emerald-600">IST</span></p>
-                      </div>
+                    <div className="pt-2 border-t border-emerald-200">
+                      <p className="text-sm font-semibold text-slate-700">⏰ {content.webinarTime} <span className="text-emerald-600">IST</span></p>
                     </div>
                   </div>
                 </div>
