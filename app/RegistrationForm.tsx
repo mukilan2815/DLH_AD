@@ -1,9 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { type LandingContent } from "./content-config";
+import { AlertCircle, CheckCircle2, ArrowRight } from "lucide-react";
 
-export default function WebinarForm({ whatsappLink }: { whatsappLink: string }) {
+interface WebinarFormProps {
+  content: LandingContent;
+  whatsappLink: string;
+}
+
+export default function WebinarForm({ content, whatsappLink }: WebinarFormProps) {
   const [formData, setFormData] = useState({
     firstName: "",
     email: "",
@@ -19,11 +25,22 @@ export default function WebinarForm({ whatsappLink }: { whatsappLink: string }) 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.firstName.trim()) newErrors.firstName = "Name is required";
-    if (!formData.email.trim()) newErrors.email = "Email is required";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Invalid email";
-    if (!formData.whatsapp.trim() || formData.whatsapp.length < 10) newErrors.whatsapp = "Valid number required";
-    if (!formData.city.trim()) newErrors.city = "City is required";
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "Name is required";
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+    if (!formData.whatsapp.trim()) {
+      newErrors.whatsapp = "WhatsApp number is required";
+    } else if (formData.whatsapp.replace(/\D/g, "").length < 10) {
+      newErrors.whatsapp = "Please enter a valid 10-digit number";
+    }
+    if (!formData.city.trim()) {
+      newErrors.city = "City is required";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -32,7 +49,9 @@ export default function WebinarForm({ whatsappLink }: { whatsappLink: string }) 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    if (touched[name]) validateForm();
+    if (touched[name]) {
+      validateForm();
+    }
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -43,6 +62,10 @@ export default function WebinarForm({ whatsappLink }: { whatsappLink: string }) 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const allTouched = Object.keys(formData).reduce((acc, key) => ({ ...acc, [key]: true }), {});
+    setTouched(allTouched);
+
     if (!validateForm()) return;
 
     setStatus("submitting");
@@ -54,205 +77,194 @@ export default function WebinarForm({ whatsappLink }: { whatsappLink: string }) 
         body: JSON.stringify(formData),
       });
 
-      if (!res.ok) throw new Error("Failed");
+      if (!res.ok) throw new Error("Failed to submit");
 
       setStatus("success");
       setFormData({ firstName: "", email: "", whatsapp: "", profession: "Job", city: "" });
       setErrors({});
       setTouched({});
+      
       if (whatsappLink) {
         window.open(whatsappLink, "_blank");
       }
-      setTimeout(() => setStatus("idle"), 4000);
     } catch {
       setStatus("error");
     }
   };
 
-  const inputClass = (field: string) => `w-full px-5 py-3 bg-white text-gray-900 border-0 rounded-full text-sm focus:outline-none transition-all shadow-sm ${
+  const inputClass = (field: string) => `w-full px-4 py-3 bg-slate-50 text-slate-900 border rounded-xl text-base focus:bg-white focus:outline-none transition-all duration-200 placeholder-slate-400 font-medium ${
     errors[field] && touched[field]
-      ? "ring-2 ring-red-500"
-      : "focus:ring-2 focus:ring-[#10B981]"
+      ? "border-red-350 focus:border-red-500 focus:ring-1 focus:ring-red-500/20 bg-red-50/10"
+      : "border-slate-200 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600/20 hover:border-slate-300"
   }`;
 
-  const selectClass = (field: string) => `w-full px-5 py-3 bg-white text-gray-700 border-0 rounded-full text-sm appearance-none cursor-pointer focus:outline-none transition-all shadow-sm ${
+  const selectClass = (field: string) => `w-full px-4 py-3 bg-slate-50 text-slate-900 border rounded-xl text-base appearance-none cursor-pointer focus:bg-white focus:outline-none transition-all duration-200 font-medium ${
     errors[field] && touched[field]
-      ? "ring-2 ring-red-500"
-      : "focus:ring-2 focus:ring-[#10B981]"
+      ? "border-red-350 focus:border-red-500 focus:ring-1 focus:ring-red-500/20"
+      : "border-slate-200 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600/20 hover:border-slate-300"
   }`;
 
-  const labelClass = "block text-gray-300 text-xs font-bold mb-2 uppercase tracking-wider";
-  const errorClass = "text-red-400 text-xs mt-1 font-medium";
+  const labelClass = "block text-slate-600 text-xs font-bold uppercase tracking-wider mb-1.5";
 
   if (status === "success") {
     return (
-      <div className="bg-[#10B981]/10 border border-[#10B981] rounded-2xl p-8 text-center animate-slide-down">
-        <style>{`.animate-slide-down { animation: slideDown 0.5s ease-out; }`}</style>
-        <div className="w-16 h-16 rounded-full bg-[#10B981] flex items-center justify-center mx-auto mb-4">
-          <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-          </svg>
+      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 text-center animate-fade-in">
+        <div className="w-16 h-16 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center mx-auto mb-5">
+          <CheckCircle2 className="w-8 h-8 text-emerald-600" />
         </div>
-        <h3 className="text-2xl font-bold text-white mb-2">Thank You!</h3>
-        <p className="text-gray-300 mb-1">You are successfully registered.</p>
-        <p className="text-sm text-gray-400">Check your email for details. Redirecting to WhatsApp...</p>
+        <h3 className="text-2xl font-bold text-slate-900 mb-2">
+          {content.successTitle || "You are Registered!"}
+        </h3>
+        <p className="text-slate-600 mb-6 font-medium text-sm leading-relaxed">
+          {content.successMessage || "Your spot has been successfully reserved. See you there!"}
+        </p>
+        
+        {whatsappLink && (
+          <a
+            href={whatsappLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold py-3.5 px-6 rounded-xl text-base transition-all duration-200 shadow-[0_4px_15px_rgba(37,211,102,0.2)] hover:scale-[1.01] active:scale-[0.99]"
+          >
+            <span>Join Our WhatsApp Group</span>
+            <ArrowRight className="w-4 h-4" />
+          </a>
+        )}
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="space-y-4">
       <style>{`
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-5px); }
-          75% { transform: translateX(5px); }
+        select {
+          background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+          background-repeat: no-repeat;
+          background-position: right 1rem center;
+          background-size: 1.25em 1.25em;
+          padding-right: 2.5rem;
         }
-        @keyframes slideDown {
-          0% { opacity: 0; transform: translateY(-10px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-        .animate-shake { animation: shake 0.3s; }
-        .animate-slide-down { animation: slideDown 0.5s ease-out; }
       `}</style>
 
-      <div className="mb-3">
-        <label className={labelClass}>First Name <span className="text-[#10B981]">*</span></label>
+      <div>
+        <label className={labelClass}>Full Name <span className="text-emerald-600">*</span></label>
         <input
           type="text"
           name="firstName"
           value={formData.firstName}
           onChange={handleChange}
           onBlur={handleBlur}
-          required
-          placeholder="Enter your full name"
+          placeholder={content.firstNamePlaceholder || "e.g. Nathan Lyon"}
           className={inputClass("firstName")}
         />
-        {errors.firstName && touched.firstName && <p className={errorClass}>{errors.firstName}</p>}
+        {errors.firstName && touched.firstName && (
+          <p className={errorClass}><AlertCircle className="w-3.5 h-3.5 inline" /> {errors.firstName}</p>
+        )}
       </div>
 
-      <div className="mb-3">
-        <label className={labelClass}>Email ID <span className="text-[#10B981]">*</span></label>
+      <div>
+        <label className={labelClass}>Business Email <span className="text-emerald-600">*</span></label>
         <input
           type="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
           onBlur={handleBlur}
-          required
-          placeholder="Enter your email address"
+          placeholder={content.emailPlaceholder || "e.g. nathan@gmail.com"}
           className={inputClass("email")}
         />
-        {errors.email && touched.email && <p className={errorClass}>{errors.email}</p>}
+        {errors.email && touched.email && (
+          <p className={errorClass}><AlertCircle className="w-3.5 h-3.5 inline" /> {errors.email}</p>
+        )}
       </div>
 
-      <div className="mb-3">
-        <label className={labelClass}>Whatsapp Number <span className="text-[#10B981]">*</span></label>
-        <div className={`flex items-center bg-white rounded-full shadow-sm focus-within:ring-2 transition-all overflow-hidden ${
+      <div>
+        <label className={labelClass}>WhatsApp Number <span className="text-emerald-600">*</span></label>
+        <div className={`flex items-center bg-slate-50 border rounded-xl transition-all duration-200 overflow-hidden ${
           errors.whatsapp && touched.whatsapp
-            ? "ring-2 ring-red-500"
-            : "focus-within:ring-2 focus-within:ring-[#10B981]"
+            ? "border-red-350 ring-1 ring-red-500/20 bg-red-50/10"
+            : "border-slate-200 focus-within:bg-white focus-within:border-emerald-600 focus-within:ring-1 focus-within:ring-emerald-600/20 hover:border-slate-350"
         }`}>
-          <span className="px-5 py-3 text-sm font-semibold text-gray-600">+91</span>
+          <span className="px-4 py-3 text-sm font-semibold text-slate-500 bg-slate-100 border-r border-slate-200 select-none">
+            +91
+          </span>
           <input
             type="tel"
             name="whatsapp"
             value={formData.whatsapp}
             onChange={handleChange}
             onBlur={handleBlur}
-            required
-            placeholder="9876543210"
-            className="flex-1 px-2 py-3 text-sm bg-transparent placeholder-gray-400 outline-none text-gray-900"
+            placeholder={content.whatsappPlaceholder || "9876543210"}
+            className="flex-1 px-4 py-3 bg-transparent text-slate-900 placeholder-slate-400 outline-none text-base font-medium"
           />
         </div>
-        {errors.whatsapp && touched.whatsapp && <p className={errorClass}>{errors.whatsapp}</p>}
+        {errors.whatsapp && touched.whatsapp && (
+          <p className={errorClass}><AlertCircle className="w-3.5 h-3.5 inline" /> {errors.whatsapp}</p>
+        )}
       </div>
 
-      <div className="mb-3">
-        <label className={labelClass}>Profession <span className="text-[#10B981]">*</span></label>
-        <select
-          name="profession"
-          value={formData.profession}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          className={selectClass("profession")}
-        >
-          <option>Job</option>
-          <option>Student</option>
-          <option>Business Owner</option>
-          <option>Freelancer</option>
-          <option>Other</option>
-        </select>
-      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className={labelClass}>{content.professionLabel || "Profession"}</label>
+          <select
+            name="profession"
+            value={formData.profession}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={selectClass("profession")}
+          >
+            <option className="bg-white text-slate-900">Job</option>
+            <option className="bg-white text-slate-900">Student</option>
+            <option className="bg-white text-slate-900">Business Owner</option>
+            <option className="bg-white text-slate-900">Freelancer</option>
+            <option className="bg-white text-slate-900">Other</option>
+          </select>
+        </div>
 
-      <div className="mb-4">
-        <label className={labelClass}>City <span className="text-[#10B981]">*</span></label>
-        <input
-          type="text"
-          name="city"
-          value={formData.city}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          required
-          placeholder="Enter your city"
-          className={inputClass("city")}
-        />
-        {errors.city && touched.city && <p className={errorClass}>{errors.city}</p>}
+        <div>
+          <label className={labelClass}>City <span className="text-emerald-600">*</span></label>
+          <input
+            type="text"
+            name="city"
+            value={formData.city}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder={content.cityPlaceholder || "e.g. Mumbai"}
+            className={inputClass("city")}
+          />
+          {errors.city && touched.city && (
+            <p className={errorClass}><AlertCircle className="w-3.5 h-3.5 inline" /> {errors.city}</p>
+          )}
+        </div>
       </div>
 
       {status === "error" && (
-        <p className="text-red-400 text-center mb-4 text-sm font-medium animate-shake">Something went wrong. Try again.</p>
+        <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm font-semibold text-center flex items-center justify-center gap-2">
+          <AlertCircle className="w-4 h-4 flex-shrink-0" />
+          <span>Something went wrong. Please try again.</span>
+        </div>
       )}
 
-      <button
-        type="submit"
-        disabled={status === "submitting"}
-        className={`w-full font-bold py-3 px-6 rounded-full text-base uppercase tracking-wider transition-all shadow-md hover:shadow-lg ${
-          status === "submitting"
-            ? "bg-gray-600 text-gray-300 cursor-not-allowed"
-            : "bg-[#10B981] hover:bg-[#059669] text-black hover:scale-[1.02] active:scale-[0.98]"
-        }`}
-      >
-        {status === "submitting" ? "Registering..." : "Register Now"}
-      </button>
+      <div className="pt-2">
+        <button
+          type="submit"
+          disabled={status === "submitting"}
+          className={`w-full py-3.5 px-6 rounded-xl text-base transition-all duration-200 shadow-md ${
+            status === "submitting"
+              ? "bg-slate-200 text-slate-400 cursor-not-allowed"
+              : "bg-emerald-600 text-white hover:bg-emerald-500 active:scale-[0.98] shadow-emerald-600/10 hover:shadow-emerald-600/20 font-extrabold cursor-pointer"
+          }`}
+        >
+          {status === "submitting" ? "Registering Spot..." : (content.submitButtonText || "REGISTER NOW")}
+        </button>
+        {content.submitButtonSub && (
+          <p className="text-center text-[11px] text-slate-400 mt-2 font-medium">
+            {content.submitButtonSub}
+          </p>
+        )}
+      </div>
     </form>
   );
 }
 
-function SuccessScreen({ waLink, onReset, content }: { waLink: string; onReset: () => void; content: LandingContent | null }) {
-  const [seconds, setSeconds] = useState(2);
-
-  useEffect(() => {
-    if (!waLink) return;
-    const timer = setTimeout(() => window.open(waLink, "_blank"), 2000);
-    const interval = setInterval(() => setSeconds((s) => (s > 0 ? s - 1 : 0)), 1000);
-    return () => { clearTimeout(timer); clearInterval(interval); };
-  }, [waLink]);
-
-  return (
-    <div className="bg-white rounded-2xl border-2 border-gray-200 p-8 text-center shadow-lg">
-      <div className="w-16 h-16 rounded-full bg-[#10B981]/10 flex items-center justify-center mx-auto mb-4">
-        <svg className="w-8 h-8 text-[#10B981]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-        </svg>
-      </div>
-      <h3 className="text-2xl font-bold text-gray-900 mb-3">{content?.successTitle ?? "You are Registered"}</h3>
-      <p className="text-lg text-gray-600 mb-6">{content?.successMessage ?? "Your registration has been saved. See you at the webinar."}</p>
-
-      <div className="bg-gray-50 rounded-xl border-2 border-gray-200 p-6 mb-6">
-        <p className="text-lg font-bold text-gray-900 mb-2">Joining WhatsApp Community</p>
-        <p className="text-base text-gray-600 mb-4">Redirecting automatically in {seconds}s</p>
-        <div className="w-full bg-gray-300 rounded-full h-2 mb-6 overflow-hidden">
-          <div className="bg-[#10B981] h-2 rounded-full transition-all duration-1000" style={{ width: `${((2 - seconds) / 2) * 100}%` }} />
-        </div>
-        <a href={waLink} target="_blank" rel="noopener noreferrer" className="inline-block w-full rounded-lg bg-[#10B981] px-6 py-4 text-lg font-bold text-white text-center hover:bg-[#059669] transition-colors">
-          Join WhatsApp Group
-        </a>
-      </div>
-
-      <button onClick={onReset} className="text-base text-gray-500 hover:text-gray-700 transition-colors font-semibold">
-        {content?.registerAnotherText ?? "Register Another Person"}
-      </button>
-    </div>
-  );
-}
+const errorClass = "text-red-500 text-xs mt-1.5 font-semibold flex items-center gap-1.5";

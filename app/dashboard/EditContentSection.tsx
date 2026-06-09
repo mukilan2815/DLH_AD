@@ -125,7 +125,7 @@ export default function EditContentSection() {
         </div>
 
         {/* Date & Time */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label className={labelClass}>Webinar Date Line</label>
             <input
@@ -140,6 +140,15 @@ export default function EditContentSection() {
               className={inputClass + " mt-1.5"}
               value={content.webinarTime}
               onChange={(e) => updateField("webinarTime", e.target.value)}
+            />
+          </div>
+          <div>
+            <label className={labelClass}>Webinar Countdown Target Date & Time</label>
+            <input
+              type="datetime-local"
+              className={inputClass + " mt-1.5"}
+              value={content.webinarTargetDateTime || ""}
+              onChange={(e) => updateField("webinarTargetDateTime", e.target.value)}
             />
           </div>
         </div>

@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Start-Sleep -Seconds 5)",
+      "Bash(Get-Content \"C:\\\\Users\\\\Kingpin\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-Kingpin-Downloads-Projects-dlh-ad\\\\15119d90-ff4d-4da2-ab9b-01befc485236\\\\tasks\\\\bjhxtghjc.output\" -Tail 20)",
+      "Bash(pkill -f \"next dev\")"
+    ]
+  }
+}

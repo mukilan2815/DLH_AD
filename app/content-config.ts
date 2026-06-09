@@ -8,6 +8,7 @@ export interface LandingContent {
   bulletPoints: string[];
   webinarDate: string;
   webinarTime: string;
+  webinarTargetDateTime: string;
   whatsappLink: string;
   formHeaderTag: string;
   formHeaderSub: string;
@@ -28,7 +29,7 @@ export interface LandingContent {
   stickyButtonText: string;
 }
 
-const CURRENT_VERSION = "2";
+const CURRENT_VERSION = "3";
 
 export const defaultContent: LandingContent = {
   _version: CURRENT_VERSION,
@@ -45,6 +46,7 @@ export const defaultContent: LandingContent = {
   ],
   webinarDate: "Webinar Happens 9th June 2026",
   webinarTime: "Tuesday @ 07:00 PM",
+  webinarTargetDateTime: "2026-06-09T19:00:00",
   whatsappLink: "https://chat.whatsapp.com/YOUR_GROUP_LINK",
   formHeaderTag: "Free Registration",
   formHeaderSub: "Fill the form below to reserve your seat",
