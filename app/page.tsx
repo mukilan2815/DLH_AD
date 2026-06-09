@@ -183,12 +183,12 @@ export default function Home() {
                 <CountdownTimer targetDate={targetDate} />
               </div>
 
-              {/* Compact Date Box */}
-              <div className="inline-flex items-center gap-3 bg-gradient-to-r from-red-600 to-orange-600 rounded-xl px-4 py-3 shadow-lg mb-8">
-                <div className="text-white">
-                  <p className="text-xs font-semibold opacity-90">📅 Webinar Happens On</p>
-                  <p className="text-sm md:text-base font-black text-white">{content.webinarDate}</p>
-                  <p className="text-xs font-semibold opacity-95">⏰ {content.webinarTime} IST</p>
+              {/* Compact Date Box - Centered */}
+              <div className="w-full flex justify-center mb-8">
+                <div className="inline-flex flex-col items-center gap-2 bg-gradient-to-br from-emerald-50 to-emerald-100/50 border border-emerald-200 rounded-2xl px-6 py-4 shadow-md hover:shadow-lg transition-shadow">
+                  <p className="text-xs font-bold text-emerald-700 uppercase tracking-wider">📅 Webinar Happens On</p>
+                  <p className="text-2xl md:text-3xl font-black text-slate-900">{content.webinarDate}</p>
+                  <p className="text-sm font-semibold text-emerald-600">⏰ {content.webinarTime} IST</p>
                 </div>
               </div>
 
@@ -354,12 +354,12 @@ export default function Home() {
               <Image src="/logo.png" alt="Digital Learners Hub" width={80} height={24} className="object-contain" />
             </div>
             <div>
-              <p className="text-xs font-bold text-slate-900 mb-1">⚡ Live Webinar Starts Soon!</p>
+              <p className="text-xs font-bold text-slate-900 mb-1">🎓 Webinar Registration Open</p>
               <div className="flex items-center gap-2">
-                <div className="bg-gradient-to-r from-red-600 to-orange-600 text-white px-3 py-1.5 rounded-lg font-black text-sm shadow-lg">
-                  {content.webinarDate}
+                <div className="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-3 py-1.5 rounded-lg font-bold text-sm shadow-md">
+                  📅 {content.webinarDate}
                 </div>
-                <div className="text-slate-900 font-bold text-sm">
+                <div className="text-slate-700 font-semibold text-sm">
                   {content.webinarTime}
                 </div>
               </div>
