@@ -100,7 +100,7 @@ export default function Home() {
     },
     {
       question: "What if I cannot attend live at the scheduled time?",
-      answer: "While we highly recommend attending live to participate in the interactive Q&A and claim free bonus templates, we will send a temporary recording of the session to everyone who registers."
+      answer: "While we highly recommend attending live to participate in the interactive Q&A and claim free bonus templates."
     },
     {
       question: "Do I need any technical background?",
@@ -149,8 +149,8 @@ export default function Home() {
         </header>
 
         {/* HERO SECTION */}
-        <section className="relative max-w-7xl mx-auto px-6 py-12 md:py-20 lg:py-24">
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <section className="relative max-w-7xl mx-auto px-6 py-12 md:py-16 lg:py-24">
+          <div className="grid lg:grid-cols-12 gap-8 md:gap-10 lg:gap-8 items-start lg:items-center">
             
             {/* LEFT COLUMN: Hero Copy & Countdown */}
             <div className="lg:col-span-7 flex flex-col justify-center">
@@ -192,10 +192,10 @@ export default function Home() {
             </div>
 
             {/* RIGHT COLUMN: Ticket Card Form */}
-            <div id="registration-form-card" className="lg:col-span-5 relative">
+            <div id="registration-form-card" className="lg:col-span-5 relative w-full">
               <div className="absolute -inset-1.5 bg-slate-200/60 rounded-[2rem] blur-md opacity-40 transition duration-500" />
-              
-              <div className="relative bg-white border border-slate-150 rounded-3xl p-5 sm:p-8 md:p-10 shadow-2xl shadow-slate-200/50">
+
+              <div className="relative bg-white border border-slate-150 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl shadow-slate-200/50 w-full">
                 <div className="mb-6">
                   <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-md">
                     {content.formHeaderTag || "FREE REGISTRATION"}
@@ -269,15 +269,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Users className="w-4 h-4 text-emerald-600" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-slate-900">10,000+ Alumni Impacted</h4>
-                      <p className="text-xs text-slate-500 font-semibold mt-1">Trained and mentored students, freelancers, and marketers on building high-conversion funnels and digital frameworks.</p>
-                    </div>
-                  </div>
 
                   <div className="flex items-start gap-4">
                     <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -288,12 +279,6 @@ export default function Home() {
                       <p className="text-xs text-slate-500 font-semibold mt-1">Zero theoretical fluff. Walk away with exact blueprints, checklist resources, and tools you can start using today.</p>
                     </div>
                   </div>
-                </div>
-
-                <div className="mt-8 border-t border-slate-200/80 pt-6 max-w-xl">
-                  <p className="text-xs italic text-slate-500 font-semibold leading-relaxed">
-                    &ldquo;Digital marketing is not about complex theories; it is about building quick assets, understanding attention channels, and implementing practical funnels that generate results.&rdquo;
-                  </p>
                 </div>
               </div>
 

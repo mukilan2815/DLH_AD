@@ -92,13 +92,13 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
     }
   };
 
-  const inputClass = (field: string) => `w-full px-4 py-3 bg-slate-50 text-slate-900 border rounded-xl text-base focus:bg-white focus:outline-none transition-all duration-200 placeholder-slate-400 font-medium ${
+  const inputClass = (field: string) => `w-full px-4 py-3.5 bg-slate-50 text-slate-900 border rounded-xl text-sm sm:text-base focus:bg-white focus:outline-none transition-all duration-200 placeholder-slate-400 font-medium ${
     errors[field] && touched[field]
       ? "border-red-350 focus:border-red-500 focus:ring-1 focus:ring-red-500/20 bg-red-50/10"
       : "border-slate-200 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600/20 hover:border-slate-300"
   }`;
 
-  const selectClass = (field: string) => `w-full px-4 py-3 bg-slate-50 text-slate-900 border rounded-xl text-base appearance-none cursor-pointer focus:bg-white focus:outline-none transition-all duration-200 font-medium ${
+  const selectClass = (field: string) => `w-full px-4 py-3.5 bg-slate-50 text-slate-900 border rounded-xl text-sm sm:text-base appearance-none cursor-pointer focus:bg-white focus:outline-none transition-all duration-200 font-medium ${
     errors[field] && touched[field]
       ? "border-red-350 focus:border-red-500 focus:ring-1 focus:ring-red-500/20"
       : "border-slate-200 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600/20 hover:border-slate-300"
@@ -135,7 +135,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-4">
       <style>{`
         select {
           background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
@@ -185,7 +185,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
             ? "border-red-350 ring-1 ring-red-500/20 bg-red-50/10"
             : "border-slate-200 focus-within:bg-white focus-within:border-emerald-600 focus-within:ring-1 focus-within:ring-emerald-600/20 hover:border-slate-350"
         }`}>
-          <span className="px-4 py-3 text-sm font-semibold text-slate-500 bg-slate-100 border-r border-slate-200 select-none">
+          <span className="px-3 sm:px-4 py-3.5 text-xs sm:text-sm font-semibold text-slate-500 bg-slate-100 border-r border-slate-200 select-none whitespace-nowrap">
             +91
           </span>
           <input
@@ -195,7 +195,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
             onChange={handleChange}
             onBlur={handleBlur}
             placeholder={content.whatsappPlaceholder || "9876543210"}
-            className="flex-1 px-4 py-3 bg-transparent text-slate-900 placeholder-slate-400 outline-none text-base font-medium"
+            className="flex-1 px-4 py-3.5 bg-transparent text-slate-900 placeholder-slate-400 outline-none text-sm sm:text-base font-medium"
           />
         </div>
         {errors.whatsapp && touched.whatsapp && (
@@ -245,11 +245,11 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
         </div>
       )}
 
-      <div className="pt-2">
+      <div className="pt-3">
         <button
           type="submit"
           disabled={status === "submitting"}
-          className={`w-full py-3.5 px-6 rounded-xl text-base transition-all duration-200 shadow-md ${
+          className={`w-full py-3.5 sm:py-4 px-6 rounded-xl text-sm sm:text-base transition-all duration-200 shadow-md ${
             status === "submitting"
               ? "bg-slate-200 text-slate-400 cursor-not-allowed"
               : "bg-emerald-600 text-white hover:bg-emerald-500 active:scale-[0.98] shadow-emerald-600/10 hover:shadow-emerald-600/20 font-extrabold cursor-pointer"
@@ -258,7 +258,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
           {status === "submitting" ? "Registering Spot..." : (content.submitButtonText || "REGISTER NOW")}
         </button>
         {content.submitButtonSub && (
-          <p className="text-center text-[11px] text-slate-400 mt-2 font-medium">
+          <p className="text-center text-[10px] sm:text-[11px] text-slate-400 mt-2.5 font-medium">
             {content.submitButtonSub}
           </p>
         )}
@@ -267,4 +267,4 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
   );
 }
 
-const errorClass = "text-red-500 text-xs mt-1.5 font-semibold flex items-center gap-1.5";
+const errorClass = "text-red-500 text-xs mt-2 sm:mt-1.5 font-semibold flex items-center gap-1.5";
