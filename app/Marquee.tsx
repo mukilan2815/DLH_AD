@@ -42,9 +42,7 @@ export default function Marquee() {
         <div className="marquee-text font-semibold text-xs md:text-sm text-emerald-300 drop-shadow-lg px-4">
           {message}
         </div>
-        <div className="marquee-text font-semibold text-xs md:text-sm text-emerald-300 drop-shadow-lg px-4" aria-hidden="true">
-          {message}
-        </div>
+       
       </div>
 
       {/* Left Fade */}

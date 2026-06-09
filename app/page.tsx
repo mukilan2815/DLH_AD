@@ -183,13 +183,11 @@ export default function Home() {
                 <CountdownTimer targetDate={targetDate} />
               </div>
 
-              {/* Mini Date Badge */}
-              <div className="w-full flex justify-center mb-6">
-                <div className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl px-4 py-3 shadow-sm hover:shadow-md transition-all">
-                  <div className="text-center">
-                    <p className="text-xs font-bold text-emerald-700 uppercase tracking-wide leading-none">📅 {content.webinarDate}</p>
-                    <p className="text-xs font-semibold text-slate-600 mt-1">⏰ {content.webinarTime} IST</p>
-                  </div>
+              {/* Mini Date Badge - Centered */}
+              <div className="flex justify-center w-full mb-6">
+                <div className="flex flex-col items-center text-center bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl px-5 py-3 shadow-sm hover:shadow-md transition-all">
+                  <p className="text-xs font-bold text-emerald-700 uppercase tracking-wide">📅 {content.webinarDate}</p>
+                  <p className="text-xs font-semibold text-slate-600 mt-0.5">⏰ {content.webinarTime} IST</p>
                 </div>
               </div>
 
