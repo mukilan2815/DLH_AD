@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import CountdownTimer from "./CountdownTimer";
 import ExitIntentModal from "./ExitIntentModal";
 import {
-  Calendar,
   Sparkles,
   Check,
   ChevronDown,
@@ -154,10 +153,28 @@ export default function Home() {
             
             {/* LEFT COLUMN: Hero Copy & Countdown */}
             <div className="lg:col-span-7 flex flex-col justify-center">
-              {/* Live Status Badge */}
-              <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-100 text-emerald-700 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-6 w-fit">
-                <Calendar className="w-3.5 h-3.5 text-emerald-600" />
-                <span>LIVE MASTERCLASS • <span className="bg-emerald-600 text-white px-2 py-0.5 rounded-md ml-1">{content.webinarDate}</span></span>
+              {/* Live Status Badge with Big Date */}
+              <div className="mb-8">
+                <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-100 text-emerald-700 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider w-fit mb-4">
+                  <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                  <span>LIVE MASTERCLASS</span>
+                </div>
+
+                {/* Big Date Display */}
+                <div className="relative inline-block">
+                  <div className="absolute -inset-2 bg-gradient-to-r from-red-500/20 via-orange-500/20 to-red-500/20 rounded-2xl blur-lg" />
+                  <div className="relative bg-gradient-to-r from-red-600 to-orange-600 rounded-2xl p-6 md:p-8 shadow-2xl">
+                    <div className="text-white">
+                      <p className="text-sm md:text-base font-bold uppercase tracking-wider mb-2 opacity-90">Webinar Happens On</p>
+                      <h3 className="text-4xl md:text-5xl lg:text-6xl font-black text-white drop-shadow-lg">
+                        {content.webinarDate}
+                      </h3>
+                      <p className="text-sm md:text-base font-semibold mt-3 opacity-95">
+                        ⏰ {content.webinarTime} IST
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Dynamic Title */}
@@ -340,10 +357,15 @@ export default function Home() {
               <Image src="/logo.png" alt="Digital Learners Hub" width={80} height={24} className="object-contain" />
             </div>
             <div>
-              <p className="text-xs font-bold text-slate-900">Live Webinar Registrations Closing Soon</p>
-              <p className="text-[10px] font-semibold text-slate-500 mt-0.5">
-                <span className="bg-red-500 text-white px-2 py-1 rounded-md font-bold">{content.webinarDate}</span> • {content.webinarTime}
-              </p>
+              <p className="text-xs font-bold text-slate-900 mb-1">⚡ Live Webinar Starts Soon!</p>
+              <div className="flex items-center gap-2">
+                <div className="bg-gradient-to-r from-red-600 to-orange-600 text-white px-3 py-1.5 rounded-lg font-black text-sm shadow-lg">
+                  {content.webinarDate}
+                </div>
+                <div className="text-slate-900 font-bold text-sm">
+                  {content.webinarTime}
+                </div>
+              </div>
             </div>
           </div>
           <div className="flex items-center gap-3 w-full md:w-auto">
