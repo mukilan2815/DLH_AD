@@ -183,23 +183,23 @@ export default function Home() {
                 <CountdownTimer targetDate={targetDate} />
               </div>
 
-              {/* Premium Date Box - Mobile & Desktop Optimized */}
-              <div className="w-full flex justify-center mb-8 lg:mb-12">
-                <div className="w-full max-w-sm md:max-w-lg lg:max-w-xl bg-gradient-to-br from-emerald-50/90 via-teal-50/60 to-emerald-100/40 border border-emerald-300/60 rounded-2xl md:rounded-3xl lg:rounded-3xl px-6 md:px-8 lg:px-10 py-6 md:py-8 lg:py-10 shadow-md hover:shadow-xl transition-all duration-300 backdrop-blur-sm">
-                  <div className="text-center space-y-3 md:space-y-4 lg:space-y-5">
-                    <div className="flex items-center justify-center gap-2 md:gap-3">
-                      <span className="text-lg md:text-2xl lg:text-3xl">📅</span>
-                      <p className="text-xs md:text-sm lg:text-base font-bold text-emerald-700 uppercase tracking-wider md:tracking-widest">Webinar Happens On</p>
+              {/* Compact Date Box - Balanced Design */}
+              <div className="w-full flex justify-center mb-8">
+                <div className="w-full max-w-sm bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl px-6 md:px-7 py-6 md:py-7 shadow-sm hover:shadow-md transition-all duration-300">
+                  <div className="text-center space-y-3">
+                    <div className="flex items-center justify-center gap-2">
+                      <span className="text-xl md:text-2xl">📅</span>
+                      <p className="text-xs md:text-sm font-bold text-emerald-700 uppercase tracking-wider">Webinar Happens On</p>
                     </div>
-                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight md:leading-snug lg:leading-tight">
+                    <h3 className="text-3xl md:text-4xl font-bold text-slate-900 leading-snug">
                       {content.webinarDate}
                     </h3>
-                    <div className="pt-3 md:pt-4 lg:pt-5 border-t border-emerald-300/60">
-                      <div className="flex items-center justify-center gap-2 md:gap-2.5">
-                        <span className="text-lg md:text-2xl lg:text-3xl">⏰</span>
-                        <p className="text-sm md:text-base lg:text-lg font-semibold text-slate-700">
+                    <div className="pt-3 border-t border-emerald-200">
+                      <div className="flex items-center justify-center gap-2">
+                        <span className="text-lg md:text-xl">⏰</span>
+                        <p className="text-sm md:text-base font-semibold text-slate-700">
                           {content.webinarTime}
-                          <span className="text-emerald-600 font-bold ml-1.5">{content.webinarTime ? "IST" : ""}</span>
+                          <span className="text-emerald-600 font-bold ml-1.5">IST</span>
                         </p>
                       </div>
                     </div>
