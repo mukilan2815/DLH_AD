@@ -8,6 +8,7 @@ export async function GET() {
     const db = await getDb();
     const collection = db.collection("content");
     const doc = await collection.findOne({ key: CONTENT_KEY });
+    console.log("[API GET /content] doc:", doc ? "found" : "not found", doc?.headline ?? "");
 
     if (!doc) {
       return NextResponse.json({ success: true, data: null }, {
@@ -30,6 +31,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    console.log("[API POST /content] received headline:", body?.headline);
 
     if (!body || typeof body !== "object") {
       return NextResponse.json(
@@ -46,6 +48,7 @@ export async function POST(req: NextRequest) {
       { $set: { ...body, key: CONTENT_KEY, updatedAt: new Date() } },
       { upsert: true }
     );
+    console.log("[API POST /content] saved to DB successfully");
 
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
