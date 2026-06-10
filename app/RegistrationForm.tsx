@@ -285,6 +285,48 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
         )}
       </div>
 
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label className={labelClass}>{content.professionLabel || "Profession"}</label>
+          <select
+            name="profession"
+            value={formData.profession}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            className={selectClass("profession")}
+          >
+            <option className="bg-white text-slate-900">Job</option>
+            <option className="bg-white text-slate-900">Student</option>
+            <option className="bg-white text-slate-900">Business Owner</option>
+            <option className="bg-white text-slate-900">Freelancer</option>
+            <option className="bg-white text-slate-900">Other</option>
+          </select>
+        </div>
+
+        <div>
+          <div className="flex items-center justify-between">
+            <label className={labelClass}>City <span className="text-emerald-600">*</span></label>
+            {sanitized.city && (
+              <span className="text-xs text-emerald-600 font-semibold flex items-center gap-1">
+                <Shield className="w-3 h-3" /> Sanitized
+              </span>
+            )}
+          </div>
+          <input
+            type="text"
+            name="city"
+            value={formData.city}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder={content.cityPlaceholder || "e.g. Mumbai"}
+            className={inputClass("city")}
+          />
+          {errors.city && touched.city && (
+            <p className={errorClass}><AlertCircle className="w-3.5 h-3.5 inline" /> {errors.city}</p>
+          )}
+        </div>
+      </div>
+
       {status === "error" && (
         <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm font-semibold text-center flex items-center justify-center gap-2 animate-shake">
           <AlertCircle className="w-4 h-4 flex-shrink-0" />
