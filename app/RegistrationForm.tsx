@@ -14,8 +14,6 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
     firstName: "",
     email: "",
     whatsapp: "",
-    profession: "Job",
-    city: "",
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -59,18 +57,6 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
       newErrors.whatsapp = "Please enter a valid phone number (10-15 digits)";
     }
 
-    const city = formData.city.trim();
-    if (!city) {
-      newErrors.city = "City is required";
-    } else if (!nameRegex.test(city)) {
-      newErrors.city = "City must be 2-100 characters (letters only)";
-    }
-
-    const validProfessions = ["Job", "Student", "Business Owner", "Freelancer", "Other"];
-    if (!validProfessions.includes(formData.profession)) {
-      newErrors.profession = "Invalid profession selected";
-    }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -80,7 +66,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
     let sanitizedValue = value;
     let wasSanitized = false;
 
-    if (name === "firstName" || name === "city") {
+    if (name === "firstName") {
       const cleaned = sanitizeInput(value).slice(0, 100);
       wasSanitized = cleaned !== value;
       sanitizedValue = cleaned;
@@ -133,7 +119,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
       }
 
       setStatus("success");
-      setFormData({ firstName: "", email: "", whatsapp: "", profession: "Job", city: "" });
+      setFormData({ firstName: "", email: "", whatsapp: "" });
       setErrors({});
       setTouched({});
 

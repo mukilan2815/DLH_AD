@@ -91,17 +91,6 @@ export async function POST(req: NextRequest) {
     const db = await getDb();
     const collection = db.collection("submissions");
 
-    const existingSubmission = await collection.findOne({
-      email: email.toLowerCase(),
-    });
-
-    if (existingSubmission) {
-      return NextResponse.json(
-        { success: false, error: "This email is already registered" },
-        { status: 409 }
-      );
-    }
-
     const sanitizedData = {
       firstName: sanitizeString(firstName),
       email: email.toLowerCase(),
