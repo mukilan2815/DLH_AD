@@ -28,10 +28,15 @@ export default function Home() {
   const [showSticky, setShowSticky] = useState(false);
 
   useEffect(() => {
-    // Fetch from DB in background, update if different
-    fetchContentFromDb().then((dbContent) => {
+    // Fetch from DB on mount and refetch every 5 seconds
+    const fetchContent = async () => {
+      const dbContent = await fetchContentFromDb();
       if (dbContent) setContent(dbContent);
-    });
+    };
+
+    fetchContent();
+    const interval = setInterval(fetchContent, 5000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
