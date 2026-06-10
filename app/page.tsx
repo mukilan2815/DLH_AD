@@ -23,21 +23,15 @@ import {
 } from "lucide-react";
 
 export default function Home() {
-  const [content, setContent] = useState<LandingContent | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [content, setContent] = useState<LandingContent>(getContent());
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [showSticky, setShowSticky] = useState(false);
 
   useEffect(() => {
+    // Fetch from DB in background, update if different
     fetchContentFromDb().then((dbContent) => {
-      if (dbContent) {
-        setContent(dbContent);
-      } else {
-        setContent(getContent());
-      }
+      if (dbContent) setContent(dbContent);
     });
-    const timer = setTimeout(() => setIsLoading(false), 1200);
-    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -51,8 +45,6 @@ export default function Home() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  if (!content) return null;
 
   const scrollToForm = () => {
     const card = document.getElementById("registration-form-card");
@@ -113,16 +105,6 @@ export default function Home() {
 
   return (
     <>
-      {/* Premium Loader Screen */}
-      {isLoading && (
-        <div className="fixed inset-0 bg-slate-50 flex flex-col items-center justify-center z-50">
-          <div className="relative flex flex-col items-center animate-pulse">
-            <div className="w-16 h-16 rounded-full border-[3px] border-slate-100 border-t-emerald-600 animate-spin mb-4" />
-            <h2 className="text-sm font-semibold text-slate-500 tracking-widest uppercase">Loading masterclass...</h2>
-          </div>
-        </div>
-      )}
-
       {/* Main Page Content */}
       <div className="min-h-screen bg-slate-50 text-slate-700 font-sans selection:bg-emerald-100 selection:text-slate-900 relative overflow-hidden">
         
