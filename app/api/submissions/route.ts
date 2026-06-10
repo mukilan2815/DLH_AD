@@ -57,11 +57,19 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { firstName, email, whatsapp, profession = "", city = "" } = body;
+    const { firstName, email, whatsapp, profession, city } = body;
 
-    if (!firstName || !email || !whatsapp) {
+    if (!firstName || !email || !whatsapp || !profession || !city) {
       return NextResponse.json(
         { success: false, error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    const validProfessions = ["Job", "Student", "Business Owner", "Freelancer", "Other"];
+    if (!validProfessions.includes(profession)) {
+      return NextResponse.json(
+        { success: false, error: "Invalid profession" },
         { status: 400 }
       );
     }
