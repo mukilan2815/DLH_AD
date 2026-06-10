@@ -5,7 +5,6 @@ import WebinarForm from "./RegistrationForm";
 import Marquee from "./Marquee";
 import { getContent, fetchContentFromDb, type LandingContent } from "./content-config";
 import { useEffect, useState } from "react";
-import CountdownTimer from "./CountdownTimer";
 import ExitIntentModal from "./ExitIntentModal";
 import {
   Sparkles,
@@ -54,8 +53,6 @@ export default function Home() {
   }, []);
 
   if (!content) return null;
-
-  const targetDate = content.webinarTargetDateTime || "2026-06-12T19:00:00";
 
   const scrollToForm = () => {
     const card = document.getElementById("registration-form-card");
@@ -183,11 +180,6 @@ export default function Home() {
               <p className="text-lg text-slate-500 font-medium leading-relaxed max-w-xl mb-8">
                 {content.subheadline || "Learn high-income digital marketing skills directly from working professionals."}
               </p>
-
-              {/* Countdown Timer */}
-              <div className="max-w-md mb-6">
-                <CountdownTimer targetDate={targetDate} />
-              </div>
 
               {/* Mini Date Badge - Centered */}
               <div className="flex justify-center w-full mb-6">

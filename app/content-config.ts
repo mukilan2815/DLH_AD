@@ -43,7 +43,7 @@ export const defaultContent: LandingContent = {
   webinarDate: "Webinar Happens 12th June 2026",
   webinarTime: "Friday @ 7:00 PM",
   webinarTargetDateTime: "2026-06-12T19:00:00",
-  whatsappLink: "https://chat.whatsapp.com/YOUR_GROUP_LINK",
+  whatsappLink: "https://chat.whatsapp.com/KVH9eo1PX1aH2fFmUg7ImN",
   formHeaderTag: "Free Registration",
   formHeaderSub: "Fill the form below to reserve your seat",
   firstNamePlaceholder: "First Name",
