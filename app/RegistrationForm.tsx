@@ -116,6 +116,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
 
     if (!validateForm()) return;
 
+    setErrorMessage("Something went wrong. Try again.");
     setStatus("submitting");
 
     try {
@@ -327,9 +328,9 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
       </div>
 
       {status === "error" && (
-        <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm font-semibold text-center flex items-center justify-center gap-2">
+        <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm font-semibold text-center flex items-center justify-center gap-2 animate-shake">
           <AlertCircle className="w-4 h-4 flex-shrink-0" />
-          <span>Something went wrong. Please try again.</span>
+          <span>{errorMessage}</span>
         </div>
       )}
 
