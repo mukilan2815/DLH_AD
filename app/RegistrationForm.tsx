@@ -21,6 +21,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("Something went wrong. Try again.");
   const [sanitized, setSanitized] = useState<Record<string, boolean>>({});
 
   const sanitizeInput = (input: string): string => {
@@ -124,7 +125,11 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
         body: JSON.stringify(formData),
       });
 
-      if (!res.ok) throw new Error("Failed to submit");
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setErrorMessage(data.error || `Error ${res.status}: Something went wrong`);
+        throw new Error(data.error || "Failed to submit");
+      }
 
       setStatus("success");
       setFormData({ firstName: "", email: "", whatsapp: "", profession: "Job", city: "" });
@@ -139,7 +144,10 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
       if (whatsappLink) {
         window.open(whatsappLink, "_blank");
       }
-    } catch {
+    } catch (err: any) {
+      if (err.message && !errorMessage) {
+        setErrorMessage(err.message);
+      }
       setStatus("error");
     }
   };
