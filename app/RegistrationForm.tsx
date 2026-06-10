@@ -143,7 +143,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
       }
 
       if (whatsappLink) {
-        window.open(whatsappLink, "_blank");
+        window.location.href = whatsappLink;
       }
     } catch (err: any) {
       if (err.message && !errorMessage) {
