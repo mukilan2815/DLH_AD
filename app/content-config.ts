@@ -75,11 +75,13 @@ export async function fetchContentFromDb(): Promise<LandingContent | null> {
       cache: "no-store",
     });
     const json = await res.json();
+    console.log("[fetchContentFromDb] API response:", json);
     if (json.success && json.data) {
       return { ...defaultContent, ...json.data };
     }
     return null;
-  } catch {
+  } catch (err) {
+    console.error("[fetchContentFromDb] error:", err);
     return null;
   }
 }
@@ -93,8 +95,10 @@ export async function saveContent(content: Partial<LandingContent>): Promise<boo
       body: JSON.stringify(content),
     });
     const json = await res.json();
+    console.log("[saveContent] API response:", json);
     return json.success === true;
-  } catch {
+  } catch (err) {
+    console.error("[saveContent] error:", err);
     return false;
   }
 }
