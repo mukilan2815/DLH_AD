@@ -130,7 +130,12 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
       setFormData({ firstName: "", email: "", whatsapp: "", profession: "Job", city: "" });
       setErrors({});
       setTouched({});
-      
+
+      // Meta Pixel: track Lead conversion
+      if (typeof window !== "undefined" && (window as any).fbq) {
+        (window as any).fbq("track", "Lead");
+      }
+
       if (whatsappLink) {
         window.open(whatsappLink, "_blank");
       }
