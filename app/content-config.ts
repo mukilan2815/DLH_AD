@@ -1,5 +1,4 @@
 export interface LandingContent {
-  _version?: string;
   headline: string;
   headlineHighlight: string;
   subheadline: string;
@@ -29,10 +28,7 @@ export interface LandingContent {
   stickyButtonText: string;
 }
 
-const CURRENT_VERSION = "3";
-
 export const defaultContent: LandingContent = {
-  _version: CURRENT_VERSION,
   headline: "Learn how to make more than 35,000 side income every month",
   headlineHighlight: " using Digital Marketing",
   subheadline: "(Even if you don't know anything about Digital Marketing)",
@@ -67,33 +63,41 @@ export const defaultContent: LandingContent = {
   stickyButtonText: "Register Now",
 };
 
-const STORAGE_KEY = "dlh_landing_content";
-
+// Sync default content (returns hardcoded defaults synchronously)
 export function getContent(): LandingContent {
-  if (typeof window === "undefined") return defaultContent;
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) return defaultContent;
+  return defaultContent;
+}
+
+// Fetch from database (async)
+export async function fetchContentFromDb(): Promise<LandingContent | null> {
   try {
-    const parsed = JSON.parse(raw) as Partial<LandingContent>;
-    // Reset if cached version is stale
-    if (parsed._version !== CURRENT_VERSION) {
-      localStorage.removeItem(STORAGE_KEY);
-      return defaultContent;
+    const res = await fetch("/api/content");
+    const json = await res.json();
+    if (json.success && json.data) {
+      return { ...defaultContent, ...json.data };
     }
-    return { ...defaultContent, ...parsed };
+    return null;
   } catch {
-    return defaultContent;
+    return null;
   }
 }
 
-export function saveContent(content: Partial<LandingContent>): void {
-  if (typeof window === "undefined") return;
-  const current = getContent();
-  const merged = { ...current, ...content };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+// Save to database (async)
+export async function saveContent(content: Partial<LandingContent>): Promise<boolean> {
+  try {
+    const res = await fetch("/api/content", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(content),
+    });
+    const json = await res.json();
+    return json.success === true;
+  } catch {
+    return false;
+  }
 }
 
-export function resetContent(): void {
-  if (typeof window === "undefined") return;
-  localStorage.removeItem(STORAGE_KEY);
+// Reset to defaults in database
+export async function resetContent(): Promise<boolean> {
+  return saveContent(defaultContent);
 }

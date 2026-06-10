@@ -3,7 +3,7 @@
 import Image from "next/image";
 import WebinarForm from "./RegistrationForm";
 import Marquee from "./Marquee";
-import { getContent, type LandingContent } from "./content-config";
+import { getContent, fetchContentFromDb, type LandingContent } from "./content-config";
 import { useEffect, useState } from "react";
 import CountdownTimer from "./CountdownTimer";
 import ExitIntentModal from "./ExitIntentModal";
@@ -30,7 +30,13 @@ export default function Home() {
   const [showSticky, setShowSticky] = useState(false);
 
   useEffect(() => {
-    setContent(getContent());
+    fetchContentFromDb().then((dbContent) => {
+      if (dbContent) {
+        setContent(dbContent);
+      } else {
+        setContent(getContent());
+      }
+    });
     const timer = setTimeout(() => setIsLoading(false), 1200);
     return () => clearTimeout(timer);
   }, []);

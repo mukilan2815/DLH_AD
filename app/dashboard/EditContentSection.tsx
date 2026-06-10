@@ -1,14 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getContent, saveContent, resetContent, type LandingContent } from "../content-config";
+import { getContent, saveContent, resetContent, fetchContentFromDb, type LandingContent } from "../content-config";
 
 export default function EditContentSection() {
   const [content, setContent] = useState<LandingContent>(getContent());
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setContent(getContent());
+    fetchContentFromDb().then((dbContent) => {
+      if (dbContent) setContent(dbContent);
+    });
   }, []);
 
   const updateField = (field: keyof LandingContent, value: string | string[]) => {
@@ -22,15 +26,23 @@ export default function EditContentSection() {
     updateField("bulletPoints", updated);
   };
 
-  const handleSave = () => {
-    saveContent(content);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 4000);
+  const handleSave = async () => {
+    setSaving(true);
+    setError(null);
+    const ok = await saveContent(content);
+    setSaving(false);
+    if (ok) {
+      setSaved(true);
+      setTimeout(() => setSaved(false), 4000);
+    } else {
+      setError("Failed to save to database.");
+      setTimeout(() => setError(null), 4000);
+    }
   };
 
-  const handleReset = () => {
+  const handleReset = async () => {
     if (confirm("Reset all content to default? This cannot be undone.")) {
-      resetContent();
+      await resetContent();
       setContent(getContent());
       setSaved(true);
       setTimeout(() => setSaved(false), 4000);
@@ -322,9 +334,10 @@ export default function EditContentSection() {
       <div className="flex items-center gap-3 mt-6 pt-5 border-t border-gray-100">
         <button
           onClick={handleSave}
-          className="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-6 py-3 text-sm font-extrabold text-white shadow transition-all hover:scale-[1.02] hover:from-emerald-600 hover:to-teal-600"
+          disabled={saving}
+          className={`rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 px-6 py-3 text-sm font-extrabold text-white shadow transition-all hover:scale-[1.02] hover:from-emerald-600 hover:to-teal-600 ${saving ? "opacity-60 cursor-not-allowed" : ""}`}
         >
-          💾 Save Changes
+          {saving ? "⏳ Saving..." : "💾 Save Changes"}
         </button>
         <button
           onClick={handleReset}
@@ -333,6 +346,9 @@ export default function EditContentSection() {
           ↺ Reset to Default
         </button>
       </div>
+      {error && (
+        <p className="mt-3 text-sm font-medium text-red-500 animate-shake">{error}</p>
+      )}
     </div>
   );
 }
