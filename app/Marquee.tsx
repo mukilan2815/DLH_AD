@@ -1,7 +1,7 @@
 "use client";
 
 export default function Marquee() {
-  const message = "🎓 Limited Spots Available - Only 50 Seats Left!  •  ⏰ Webinar Starts: 9th June 2026 at 7:00 PM IST  •  💰 FREE Masterclass + Bonus Templates Worth ₹5000  •  🚀 Learn High-Income Digital Marketing Skills  •  🎁 Live Q&A Session + Certificate Included  •  ";
+  const message = "🎓 Limited Spots Available - Only 50 Seats Left!  •  ⏰ Webinar Starts: 12th June 2026 at 7:00 PM IST  •  💰 FREE Masterclass + Bonus Templates Worth ₹5000  •  🚀 Learn High-Income Digital Marketing Skills  •  🎁 Live Q&A Session + Certificate Included  •  ";
 
   return (
     <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 overflow-hidden relative py-2 md:py-2.5 shadow-lg border-y border-emerald-600/30">

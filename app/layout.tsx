@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Digital Learners Hub - Free Webinar",
-  description: "Learn how to make more than 35,000 side income every month using Digital Marketing",
+  description: "Learn how to make more than ₹35,000 side income every month using Digital Marketing",
   icons: {
     icon: "/logo.png",
     shortcut: "/logo.png",

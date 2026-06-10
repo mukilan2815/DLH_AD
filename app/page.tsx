@@ -55,7 +55,7 @@ export default function Home() {
 
   if (!content) return null;
 
-  const targetDate = content.webinarTargetDateTime || "2026-06-09T19:00:00";
+  const targetDate = content.webinarTargetDateTime || "2026-06-12T19:00:00";
 
   const scrollToForm = () => {
     const card = document.getElementById("registration-form-card");

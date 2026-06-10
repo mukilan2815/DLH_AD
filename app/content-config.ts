@@ -29,7 +29,7 @@ export interface LandingContent {
 }
 
 export const defaultContent: LandingContent = {
-  headline: "Learn how to make more than 35,000 side income every month",
+  headline: "Learn how to make more than ₹35,000 side income every month",
   headlineHighlight: " using Digital Marketing",
   subheadline: "(Even if you don't know anything about Digital Marketing)",
   urgencyText: "Only 47 free seats left for tonight's webinar.",
@@ -40,9 +40,9 @@ export const defaultContent: LandingContent = {
     "How to find Digital Marketing job opportunities and apply for it.",
     "How to become a freelancer or start your own digital marketing agency.",
   ],
-  webinarDate: "Webinar Happens 9th June 2026",
-  webinarTime: "Tuesday @ 07:00 PM",
-  webinarTargetDateTime: "2026-06-09T19:00:00",
+  webinarDate: "Webinar Happens 12th June 2026",
+  webinarTime: "Friday @ 7:00 PM",
+  webinarTargetDateTime: "2026-06-12T19:00:00",
   whatsappLink: "https://chat.whatsapp.com/YOUR_GROUP_LINK",
   formHeaderTag: "Free Registration",
   formHeaderSub: "Fill the form below to reserve your seat",
