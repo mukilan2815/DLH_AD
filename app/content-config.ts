@@ -71,7 +71,9 @@ export function getContent(): LandingContent {
 // Fetch from database (async)
 export async function fetchContentFromDb(): Promise<LandingContent | null> {
   try {
-    const res = await fetch("/api/content");
+    const res = await fetch(`/api/content?t=${Date.now()}`, {
+      cache: "no-store",
+    });
     const json = await res.json();
     if (json.success && json.data) {
       return { ...defaultContent, ...json.data };

@@ -10,11 +10,17 @@ export async function GET() {
     const doc = await collection.findOne({ key: CONTENT_KEY });
 
     if (!doc) {
-      return NextResponse.json({ success: true, data: null }, { status: 200 });
+      return NextResponse.json({ success: true, data: null }, {
+        status: 200,
+        headers: { "Cache-Control": "no-store, max-age=0" },
+      });
     }
 
     const { _id, key, ...data } = doc;
-    return NextResponse.json({ success: true, data }, { status: 200 });
+    return NextResponse.json({ success: true, data }, {
+      status: 200,
+      headers: { "Cache-Control": "no-store, max-age=0" },
+    });
   } catch (error) {
     console.error("GET /api/content error:", error);
     return NextResponse.json({ success: false, error: "Failed to fetch content" }, { status: 500 });
