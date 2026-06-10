@@ -5,7 +5,8 @@
       "Bash(Get-Content \"C:\\\\Users\\\\Kingpin\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--Users-Kingpin-Downloads-Projects-dlh-ad\\\\15119d90-ff4d-4da2-ab9b-01befc485236\\\\tasks\\\\bjhxtghjc.output\" -Tail 20)",
       "Bash(pkill -f \"next dev\")",
       "Bash(powershell -Command \"Start-Sleep -Seconds 8; Write-Output 'Checking server status...'\")",
-      "Bash(powershell -Command \"Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep -Seconds 2; npm run dev\")"
+      "Bash(powershell -Command \"Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep -Seconds 2; npm run dev\")",
+      "Bash(pm2 logs *)"
     ]
   }
 }
