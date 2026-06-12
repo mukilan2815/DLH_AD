@@ -122,11 +122,6 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
         throw new Error(data.error || "Failed to submit");
       }
 
-      setStatus("success");
-      setFormData({ firstName: "", email: "", whatsapp: "", profession: "Job", city: "" });
-      setErrors({});
-      setTouched({});
-
       // Meta Pixel: track Lead conversion
       if (typeof window !== "undefined" && (window as any).fbq) {
         (window as any).fbq("track", "Lead");
