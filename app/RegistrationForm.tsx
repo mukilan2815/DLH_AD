@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { type LandingContent } from "./content-config";
-import { AlertCircle, CheckCircle2, ArrowRight } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 
 interface WebinarFormProps {
   content: LandingContent;
@@ -20,9 +20,8 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
 
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string>("Something went wrong. Try again.");
-  const [countdown, setCountdown] = useState<number>(5);
 
   const sanitizeInput = (input: string): string => {
     return input
@@ -133,20 +132,11 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
         (window as any).fbq("track", "Lead");
       }
 
-      // Auto-navigate after 5 seconds
-      if (whatsappLink) {
-        setCountdown(5);
-        const interval = setInterval(() => {
-          setCountdown(prev => {
-            if (prev <= 1) {
-              clearInterval(interval);
-              window.location.href = whatsappLink;
-              return 0;
-            }
-            return prev - 1;
-          });
-        }, 1000);
-      }
+      // Redirect to thank you page
+      setTimeout(() => {
+        const redirectUrl = whatsappLink ? encodeURIComponent(whatsappLink) : "";
+        window.location.href = `/thank-you?redirect=${redirectUrl}`;
+      }, 500);
     } catch (err: any) {
       if (err.message && !errorMessage) {
         setErrorMessage(err.message);
@@ -169,36 +159,6 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
 
   const labelClass = "block text-slate-600 text-xs font-bold uppercase tracking-wider mb-1.5";
 
-  if (status === "success") {
-    return (
-      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 text-center animate-fade-in">
-        <div className="w-16 h-16 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center mx-auto mb-5">
-          <CheckCircle2 className="w-8 h-8 text-emerald-600" />
-        </div>
-        <h3 className="text-2xl font-bold text-slate-900 mb-2">
-          {content.successTitle || "You are Registered!"}
-        </h3>
-        <p className="text-slate-600 mb-6 font-medium text-sm leading-relaxed">
-          {content.successMessage || "Your spot has been successfully reserved. See you there!"}
-        </p>
-
-        {whatsappLink && (
-          <>
-            <button
-              onClick={() => window.location.href = whatsappLink}
-              className="inline-flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold py-3.5 px-6 rounded-xl text-base transition-all duration-200 shadow-[0_4px_15px_rgba(37,211,102,0.2)] hover:scale-[1.01] active:scale-[0.99]"
-            >
-              <span>Join Our WhatsApp Group</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-            <p className="text-slate-500 mt-4 text-xs font-semibold">
-              Redirecting in {countdown}s...
-            </p>
-          </>
-        )}
-      </div>
-    );
-  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-4">
