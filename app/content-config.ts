@@ -21,6 +21,7 @@ export interface LandingContent {
   trustText: string;
   successTitle: string;
   successMessage: string;
+  whatsappCtaText: string;
   speakerName: string;
   speakerRole: string;
   speakerCompany: string;
@@ -54,8 +55,9 @@ export const defaultContent: LandingContent = {
   submitButtonText: "Register Now",
   submitButtonSub: "100% Free. No credit card required.",
   trustText: "Your information is secure. No spam, ever.",
-  successTitle: "You are Registered",
-  successMessage: "Your registration has been saved. See you at the webinar.",
+  successTitle: "You are Registered!",
+  successMessage: "Your spot has been successfully reserved. See you there!",
+  whatsappCtaText: "TO GET THE WEBINAR LINK JOIN OUR WHATSAPP COMMUNITY👇",
   speakerName: "Anushree",
   speakerRole: "Performance Marketing Strategist",
   speakerCompany: "Brand Monk Group of Companies",

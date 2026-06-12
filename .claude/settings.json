@@ -11,7 +11,8 @@
       "PowerShell(Stop-Process -Force -Confirm:$false)",
       "PowerShell(Stop-Process -Name \"node\" -Force -ErrorAction SilentlyContinue)",
       "PowerShell(taskkill /F /IM node.exe 2>$null)",
-      "PowerShell($projectPath = \"C:\\\\Users\\\\Kingpin\\\\Downloads\\\\Projects\\\\dlh_ad\"; Remove-Item -Path \"$projectPath\\\\.next\" -Recurse -Force -ErrorAction SilentlyContinue; Write-Host \".next folder removed\"; Start-Sleep -Seconds 1)"
+      "PowerShell($projectPath = \"C:\\\\Users\\\\Kingpin\\\\Downloads\\\\Projects\\\\dlh_ad\"; Remove-Item -Path \"$projectPath\\\\.next\" -Recurse -Force -ErrorAction SilentlyContinue; Write-Host \".next folder removed\"; Start-Sleep -Seconds 1)",
+      "Bash(curl -s \"http://localhost:3000/thank-you\")"
     ]
   }
 }

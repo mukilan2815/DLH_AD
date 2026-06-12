@@ -273,22 +273,38 @@ export default function EditContentSection() {
             onChange={(e) => updateField("trustText", e.target.value)}
           />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className={labelClass}>Success Title</label>
-            <input
-              className={inputClass + " mt-1.5"}
-              value={content.successTitle}
-              onChange={(e) => updateField("successTitle", e.target.value)}
-            />
+        {/* Thank You Page Content */}
+        <div className="border-t-2 border-gray-200 pt-5 mt-5">
+          <h3 className="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wider">🎉 Thank You Page Content</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className={labelClass}>Success Title</label>
+              <input
+                className={inputClass + " mt-1.5"}
+                value={content.successTitle}
+                onChange={(e) => updateField("successTitle", e.target.value)}
+              />
+            </div>
+            <div>
+              <label className={labelClass}>Success Message</label>
+              <input
+                className={inputClass + " mt-1.5"}
+                value={content.successMessage}
+                onChange={(e) => updateField("successMessage", e.target.value)}
+              />
+            </div>
           </div>
           <div>
-            <label className={labelClass}>Success Message</label>
+            <label className={labelClass}>WhatsApp CTA Text</label>
             <input
               className={inputClass + " mt-1.5"}
-              value={content.successMessage}
-              onChange={(e) => updateField("successMessage", e.target.value)}
+              value={content.whatsappCtaText || ""}
+              onChange={(e) => updateField("whatsappCtaText", e.target.value)}
+              placeholder="e.g., TO GET THE WEBINAR LINK JOIN OUR WHATSAPP COMMUNITY👇"
             />
+            <p className="text-[11px] text-gray-400 mt-1">
+              This text appears above the WhatsApp join button on the thank you page.
+            </p>
           </div>
         </div>
 

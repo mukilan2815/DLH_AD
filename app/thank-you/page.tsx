@@ -3,12 +3,24 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { CheckCircle2, ArrowRight, Loader } from "lucide-react";
-import { getContent, type LandingContent } from "../content-config";
+import { getContent, fetchContentFromDb, type LandingContent } from "../content-config";
 
 export default function ThankYouPage() {
   const [content, setContent] = useState<LandingContent>(getContent());
   const [countdown, setCountdown] = useState<number>(5);
   const [whatsappLink, setWhatsappLink] = useState<string>("");
+
+  useEffect(() => {
+    // Fetch from DB on mount and refetch every 5 seconds
+    const fetchContent = async () => {
+      const dbContent = await fetchContentFromDb();
+      if (dbContent) setContent(dbContent);
+    };
+
+    fetchContent();
+    const interval = setInterval(fetchContent, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -76,7 +88,7 @@ export default function ThankYouPage() {
               {/* WhatsApp CTA Text */}
               <div className="mb-6">
                 <p className="text-base font-bold text-slate-900 mb-4">
-                  TO GET THE WEBINAR LINK JOIN OUR WHATSAPP COMMUNITY👇
+                  {content.whatsappCtaText || "TO GET THE WEBINAR LINK JOIN OUR WHATSAPP COMMUNITY👇"}
                 </p>
               </div>
 
