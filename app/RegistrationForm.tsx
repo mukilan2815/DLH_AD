@@ -26,9 +26,8 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
 
   const sanitizeInput = (input: string): string => {
     return input
-      .trim()
       .slice(0, 100)
-      .replace(/[<>\"']/g, "")
+      .replace(/[<>\"]/g, "")
       .replace(/javascript:/gi, "")
       .replace(/on\w+\s*=/gi, "");
   };
@@ -78,20 +77,13 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     let sanitizedValue = value;
-    let wasSanitized = false;
 
     if (name === "firstName" || name === "city") {
-      const cleaned = sanitizeInput(value).slice(0, 100);
-      wasSanitized = cleaned !== value;
-      sanitizedValue = cleaned;
+      sanitizedValue = sanitizeInput(value).slice(0, 100);
     } else if (name === "email") {
-      const cleaned = value.trim().slice(0, 254);
-      wasSanitized = cleaned !== value;
-      sanitizedValue = cleaned;
+      sanitizedValue = value.trim().slice(0, 254);
     } else if (name === "whatsapp") {
-      const cleaned = value.replace(/\D/g, "").slice(0, 15);
-      wasSanitized = cleaned !== value;
-      sanitizedValue = cleaned;
+      sanitizedValue = value.replace(/\D/g, "").slice(0, 15);
     }
 
     setFormData(prev => ({ ...prev, [name]: sanitizedValue }));
