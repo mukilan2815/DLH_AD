@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { type LandingContent } from "./content-config";
-import { AlertCircle, CheckCircle2, ArrowRight, Shield } from "lucide-react";
+import { AlertCircle, CheckCircle2, ArrowRight } from "lucide-react";
 
 interface WebinarFormProps {
   content: LandingContent;
@@ -22,7 +22,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string>("Something went wrong. Try again.");
-  const [sanitized, setSanitized] = useState<Record<string, boolean>>({});
+  const [countdown, setCountdown] = useState<number>(5);
 
   const sanitizeInput = (input: string): string => {
     return input
@@ -35,7 +35,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    const nameRegex = /^[a-zA-Z\s.''-]{2,100}$/;
+    const nameRegex = /^[a-zA-Z\s.'-]{2,100}$/;
     const emailRegex = /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     const firstName = formData.firstName.trim();
@@ -95,7 +95,6 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
     }
 
     setFormData(prev => ({ ...prev, [name]: sanitizedValue }));
-    setSanitized(prev => ({ ...prev, [name]: wasSanitized }));
 
     if (touched[name]) {
       validateForm();
@@ -142,8 +141,19 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
         (window as any).fbq("track", "Lead");
       }
 
+      // Auto-navigate after 5 seconds
       if (whatsappLink) {
-        window.location.href = whatsappLink;
+        setCountdown(5);
+        const interval = setInterval(() => {
+          setCountdown(prev => {
+            if (prev <= 1) {
+              clearInterval(interval);
+              window.location.href = whatsappLink;
+              return 0;
+            }
+            return prev - 1;
+          });
+        }, 1000);
       }
     } catch (err: any) {
       if (err.message && !errorMessage) {
@@ -179,17 +189,20 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
         <p className="text-slate-600 mb-6 font-medium text-sm leading-relaxed">
           {content.successMessage || "Your spot has been successfully reserved. See you there!"}
         </p>
-        
+
         {whatsappLink && (
-          <a
-            href={whatsappLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold py-3.5 px-6 rounded-xl text-base transition-all duration-200 shadow-[0_4px_15px_rgba(37,211,102,0.2)] hover:scale-[1.01] active:scale-[0.99]"
-          >
-            <span>Join Our WhatsApp Group</span>
-            <ArrowRight className="w-4 h-4" />
-          </a>
+          <>
+            <button
+              onClick={() => window.location.href = whatsappLink}
+              className="inline-flex items-center justify-center gap-2 w-full bg-[#25D366] hover:bg-[#20ba59] text-white font-bold py-3.5 px-6 rounded-xl text-base transition-all duration-200 shadow-[0_4px_15px_rgba(37,211,102,0.2)] hover:scale-[1.01] active:scale-[0.99]"
+            >
+              <span>Join Our WhatsApp Group</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <p className="text-slate-500 mt-4 text-xs font-semibold">
+              Redirecting in {countdown}s...
+            </p>
+          </>
         )}
       </div>
     );
@@ -208,14 +221,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
       `}</style>
 
       <div>
-        <div className="flex items-center justify-between">
-          <label className={labelClass}>Full Name <span className="text-emerald-600">*</span></label>
-          {sanitized.firstName && (
-            <span className="text-xs text-emerald-600 font-semibold flex items-center gap-1">
-              <Shield className="w-3 h-3" /> Sanitized
-            </span>
-          )}
-        </div>
+        <label className={labelClass}>Full Name <span className="text-emerald-600">*</span></label>
         <input
           type="text"
           name="firstName"
@@ -231,14 +237,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
       </div>
 
       <div>
-        <div className="flex items-center justify-between">
-          <label className={labelClass}>Business Email <span className="text-emerald-600">*</span></label>
-          {sanitized.email && (
-            <span className="text-xs text-emerald-600 font-semibold flex items-center gap-1">
-              <Shield className="w-3 h-3" /> Sanitized
-            </span>
-          )}
-        </div>
+        <label className={labelClass}>Business Email <span className="text-emerald-600">*</span></label>
         <input
           type="email"
           name="email"
@@ -254,14 +253,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
       </div>
 
       <div>
-        <div className="flex items-center justify-between">
-          <label className={labelClass}>WhatsApp Number <span className="text-emerald-600">*</span></label>
-          {sanitized.whatsapp && (
-            <span className="text-xs text-emerald-600 font-semibold flex items-center gap-1">
-              <Shield className="w-3 h-3" /> Sanitized
-            </span>
-          )}
-        </div>
+        <label className={labelClass}>WhatsApp Number <span className="text-emerald-600">*</span></label>
         <div className={`flex items-center bg-slate-50 border rounded-xl transition-all duration-200 overflow-hidden ${
           errors.whatsapp && touched.whatsapp
             ? "border-red-350 ring-1 ring-red-500/20 bg-red-50/10"
@@ -304,14 +296,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
         </div>
 
         <div>
-          <div className="flex items-center justify-between">
-            <label className={labelClass}>City <span className="text-emerald-600">*</span></label>
-            {sanitized.city && (
-              <span className="text-xs text-emerald-600 font-semibold flex items-center gap-1">
-                <Shield className="w-3 h-3" /> Sanitized
-              </span>
-            )}
-          </div>
+          <label className={labelClass}>City <span className="text-emerald-600">*</span></label>
           <input
             type="text"
             name="city"
