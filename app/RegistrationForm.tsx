@@ -140,13 +140,13 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
     }
   };
 
-  const inputClass = (field: string) => `w-full px-4 py-3.5 bg-slate-50 text-slate-900 border rounded-xl text-sm sm:text-base focus:bg-white focus:outline-none transition-all duration-200 placeholder-slate-400 font-medium ${
+  const inputClass = (field: string) => `w-full px-4 py-3.5 bg-slate-50 text-slate-900 border rounded-xl text-base focus:bg-white focus:outline-none transition-all duration-200 placeholder-slate-400 font-medium appearance-none ${
     errors[field] && touched[field]
       ? "border-red-350 focus:border-red-500 focus:ring-1 focus:ring-red-500/20 bg-red-50/10"
       : "border-slate-200 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600/20 hover:border-slate-300"
   }`;
 
-  const selectClass = (field: string) => `w-full px-4 py-3.5 bg-slate-50 text-slate-900 border rounded-xl text-sm sm:text-base appearance-none cursor-pointer focus:bg-white focus:outline-none transition-all duration-200 font-medium ${
+  const selectClass = (field: string) => `w-full px-4 py-3.5 bg-slate-50 text-slate-900 border rounded-xl text-base appearance-none cursor-pointer focus:bg-white focus:outline-none transition-all duration-200 font-medium ${
     errors[field] && touched[field]
       ? "border-red-350 focus:border-red-500 focus:ring-1 focus:ring-red-500/20"
       : "border-slate-200 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600/20 hover:border-slate-300"
@@ -156,7 +156,7 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
 
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-4 pb-6">
       <style>{`
         select {
           background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
@@ -164,6 +164,15 @@ export default function WebinarForm({ content, whatsappLink }: WebinarFormProps)
           background-position: right 1rem center;
           background-size: 1.25em 1.25em;
           padding-right: 2.5rem;
+          font-size: 16px;
+        }
+        input, textarea {
+          font-size: 16px;
+        }
+        @supports (padding: max(0px)) {
+          form {
+            padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+          }
         }
       `}</style>
 

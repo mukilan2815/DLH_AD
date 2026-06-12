@@ -21,7 +21,7 @@ export default function ThankYouPage() {
   useEffect(() => {
     if (!whatsappLink) return;
 
-    setCountdown(10);
+    setCountdown(15);
     const interval = setInterval(() => {
       setCountdown(prev => {
         if (prev <= 1) {
@@ -72,12 +72,6 @@ export default function ThankYouPage() {
                 {content.successMessage || "Your spot has been successfully reserved. See you there!"}
               </p>
 
-              {/* Additional Info */}
-              <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-5 mb-8">
-                <p className="text-sm font-semibold text-emerald-900">
-                  📅 {content.webinarDate} • ⏰ {content.webinarTime} IST
-                </p>
-              </div>
 
               {/* WhatsApp CTA Text */}
               <div className="mb-6">

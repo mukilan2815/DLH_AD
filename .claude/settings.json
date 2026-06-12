@@ -6,7 +6,12 @@
       "Bash(pkill -f \"next dev\")",
       "Bash(powershell -Command \"Start-Sleep -Seconds 8; Write-Output 'Checking server status...'\")",
       "Bash(powershell -Command \"Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep -Seconds 2; npm run dev\")",
-      "Bash(pm2 logs *)"
+      "Bash(pm2 logs *)",
+      "PowerShell(Get-Process -Name \"node\")",
+      "PowerShell(Stop-Process -Force -Confirm:$false)",
+      "PowerShell(Stop-Process -Name \"node\" -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(taskkill /F /IM node.exe 2>$null)",
+      "PowerShell($projectPath = \"C:\\\\Users\\\\Kingpin\\\\Downloads\\\\Projects\\\\dlh_ad\"; Remove-Item -Path \"$projectPath\\\\.next\" -Recurse -Force -ErrorAction SilentlyContinue; Write-Host \".next folder removed\"; Start-Sleep -Seconds 1)"
     ]
   }
 }

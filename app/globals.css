@@ -17,3 +17,39 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
 }
+
+/* Safari Mobile Keyboard Fixes */
+input, select, textarea {
+  font-size: 16px;
+}
+
+/* Prevent Safari from zooming on input focus */
+@supports (-webkit-touch-callout: none) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 16px !important;
+    /* Remove default iOS styling */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+}
+
+/* Ensure inputs are scrollable when keyboard appears */
+@media (max-width: 768px) {
+  input:focus, select:focus, textarea:focus {
+    scroll-margin-top: 150px;
+    scroll-padding-top: 150px;
+  }
+
+  /* Prevent layout shift when keyboard appears */
+  html, body {
+    height: 100%;
+    overflow-y: auto;
+    -webkit-user-select: text;
+  }
+}

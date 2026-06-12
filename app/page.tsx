@@ -47,17 +47,36 @@ export default function Home() {
         setShowSticky(false);
       }
     };
+
+    const handleResize = () => {
+      // Hide sticky on mobile if viewport height is too small (keyboard visible)
+      const isSmallViewport = window.innerHeight < 500;
+      if (isSmallViewport && window.innerWidth < 768) {
+        setShowSticky(false);
+      }
+    };
+
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const scrollToForm = () => {
     const card = document.getElementById("registration-form-card");
     if (card) {
-      card.scrollIntoView({ behavior: "smooth", block: "center" });
+      card.scrollIntoView({ behavior: "smooth", block: "start" });
       const nameInput = document.getElementsByName("firstName")[0];
       if (nameInput) {
-        setTimeout(() => nameInput.focus({ preventScroll: true }), 800);
+        setTimeout(() => {
+          nameInput.focus({ preventScroll: true });
+          // Force scroll to ensure input is visible above keyboard
+          setTimeout(() => {
+            nameInput.scrollIntoView({ behavior: "smooth", block: "center" });
+          }, 300);
+        }, 800);
       }
     }
   };
@@ -190,7 +209,7 @@ export default function Home() {
             </div>
 
             {/* RIGHT COLUMN: Ticket Card Form */}
-            <div id="registration-form-card" className="lg:col-span-5 relative w-full">
+            <div id="registration-form-card" className="lg:col-span-5 relative w-full pb-24 md:pb-4">
               <div className="absolute -inset-1.5 bg-slate-200/60 rounded-[2rem] blur-md opacity-40 transition duration-500" />
 
               <div className="relative bg-white border border-slate-150 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 shadow-2xl shadow-slate-200/50 w-full">
@@ -330,9 +349,12 @@ export default function Home() {
         </section>
 
         {/* SCROLL FOOTER BAR */}
-        <div className={`fixed bottom-4 left-4 right-4 z-20 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-5 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl transition-all duration-300 md:z-40 ${
-          showSticky ? "translate-y-0 opacity-100" : "translate-y-24 opacity-0 pointer-events-none"
-        }`}>
+        <div className={`fixed bottom-4 left-4 right-4 z-20 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-5 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl transition-all duration-300 md:z-40 pointer-events-none ${
+          showSticky ? "translate-y-0 opacity-100" : "translate-y-24 opacity-0"
+        }`}
+        style={{
+          pointerEvents: showSticky ? 'auto' : 'none',
+        }}>
           <div className="flex items-center gap-3">
             <div className="bg-slate-50 p-1 rounded-md border border-slate-200 hidden sm:block">
               <Image src="/logo.png" alt="Digital Learners Hub" width={80} height={24} className="object-contain" />
