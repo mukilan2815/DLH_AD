@@ -21,7 +21,7 @@ export default function ThankYouPage() {
   useEffect(() => {
     if (!whatsappLink) return;
 
-    setCountdown(5);
+    setCountdown(10);
     const interval = setInterval(() => {
       setCountdown(prev => {
         if (prev <= 1) {

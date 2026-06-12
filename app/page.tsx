@@ -330,7 +330,7 @@ export default function Home() {
         </section>
 
         {/* SCROLL FOOTER BAR */}
-        <div className={`fixed bottom-4 left-4 right-4 z-40 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-5 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl transition-all duration-300 ${
+        <div className={`fixed bottom-4 left-4 right-4 z-20 bg-white/95 backdrop-blur-md border border-slate-200 rounded-2xl px-5 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4 shadow-xl transition-all duration-300 md:z-40 ${
           showSticky ? "translate-y-0 opacity-100" : "translate-y-24 opacity-0 pointer-events-none"
         }`}>
           <div className="flex items-center gap-3">
